@@ -1,0 +1,11 @@
+/.clj-kondo/
+/.lsp/
+/.metadata/
+/.vscode/
+/.mvn/
+
+/.target/**
+
+*.class
+*.jar
+*.war
