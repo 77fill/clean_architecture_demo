@@ -4,7 +4,6 @@
 /.vscode/
 /.mvn/
 
-/.target/**
 
 *.class
 *.jar
