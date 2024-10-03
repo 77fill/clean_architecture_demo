@@ -65,6 +65,10 @@ public class Lobby implements Closeable {
 	public Queue<Message> getIncomingMessages() {
 		return incomingMessages;
 	}
+
+	public ExecutorService getExecutor() {
+		return executor;
+	}
 	
 	
 }
