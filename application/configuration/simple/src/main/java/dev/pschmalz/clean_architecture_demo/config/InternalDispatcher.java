@@ -1,11 +1,16 @@
-package dev.pschmalz.clean_architecture_demo.network;
+package dev.pschmalz.clean_architecture_demo.config;
 
+import java.io.Closeable;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import dev.pschmalz.clean_architecture_demo.network.Lobby;
 import dev.pschmalz.clean_architecture_demo.network.controllers.Controller;
 import dev.pschmalz.clean_architecture_demo.network.controllers.PlayerController;
 import dev.pschmalz.clean_architecture_demo.network.data.Message;
 
-public class InternalDispatcher implements Runnable {
+public class InternalDispatcher implements Runnable, Closeable {
 	private Lobby lobby;
+	private AtomicBoolean running = new AtomicBoolean(true);
 	
 	public InternalDispatcher(Lobby lobby) {
 		this.lobby = lobby;
@@ -15,7 +20,7 @@ public class InternalDispatcher implements Runnable {
 	public void run() {
 		var executor = lobby.getExecutor();
 		
-		while(true) {
+		while(running.get()) {
 			while(!lobby.getIncomingMessages().isEmpty()) {
 				var message = lobby.getIncomingMessages().poll();
 				
@@ -38,5 +43,10 @@ public class InternalDispatcher implements Runnable {
 	
 	public void dispatch(Controller controller, Message message) {
 		lobby.getExecutor().execute(() -> controller.processMessage(message));
+	}
+	
+	@Override
+	public void close() {
+		running.setRelease(false);
 	}
 }
