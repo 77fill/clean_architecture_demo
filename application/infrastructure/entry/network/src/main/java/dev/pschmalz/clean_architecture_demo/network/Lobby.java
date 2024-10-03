@@ -18,7 +18,7 @@ public class Lobby implements Closeable {
 	
 
 	/**
-	 * TODO: exit when (open == true) even if waiting for 'accept'
+	 * TODO: exit when (open == false) even if waiting for 'accept'
 	 */
 	public void awaitClients() {
 		while(open.get()) {
