@@ -3,13 +3,18 @@ package dev.pschmalz.clean_architecture_demo.network;
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import dev.pschmalz.clean_architecture_demo.network.data.Message;
 
 public class Lobby implements Closeable {
 	private ServerSocket serverSocket;
 	private AtomicBoolean open = new AtomicBoolean(true);
 	private ExecutorService executor;
+	private Queue<Message> incomingMessages = new ConcurrentLinkedQueue<>();
 	
 
 	/**
@@ -20,7 +25,7 @@ public class Lobby implements Closeable {
 			try {
 				var socket = serverSocket.accept();
 				
-				executor.execute(new ClientRoom(socket));
+				executor.execute(new ClientRoom(this, executor, socket));
 			} catch (IOException e) {
 				throw new IllegalStateException("Server socket could not 'accept' connections.");
 			}
@@ -56,4 +61,10 @@ public class Lobby implements Closeable {
 	public AtomicBoolean getOpen() {
 		return open;
 	}
+
+	public Queue<Message> getIncomingMessages() {
+		return incomingMessages;
+	}
+	
+	
 }

@@ -9,7 +9,7 @@ public class Application {
     	var executor = Executors.newFixedThreadPool(20);
     	
         try(var lobby = new Lobby(8080, executor)) {
-        	System.out.println("This worked!!");
+        	lobby.awaitClients();
         }
     }
 }

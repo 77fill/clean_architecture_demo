@@ -1,41 +1,61 @@
 package dev.pschmalz.clean_architecture_demo.network;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import dev.pschmalz.clean_architecture_demo.network.data.Message;
+import jakarta.json.bind.JsonbBuilder;
 
 public class ClientRoom implements Runnable {
 
+	private Lobby parent;
 	private Socket clientSocket;
-	private InputStream in;
-	private OutputStream out;
-	private Queue<String> messages;
+	private BufferedReader in;
+	private OutputStreamWriter out;
+	private Queue<Message> outputMessages = new ConcurrentLinkedQueue<>();
 	private AtomicBoolean inUse = new AtomicBoolean(true);
+	private Executor executor;
 	
-	public ClientRoom(Socket socket) throws IOException {
+	public ClientRoom(Lobby parent, Executor executor, Socket socket) throws IOException {
 		this.clientSocket = socket;
+		this.parent = parent;
+		this.executor = executor;
 		
-		this.in = socket.getInputStream();
-		this.out = socket.getOutputStream();
+		this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		this.out = new OutputStreamWriter(socket.getOutputStream());
 		
 	}
 	
 	@Override
 	public void run() {
-		while(inUse.get()) {
-			
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				throw new IllegalStateException("Sleep failed!");
-			}
-		}
+		executor.execute(new Listener(this));
+		executor.execute(new Speaker(this));
 	}
 	
-	public AtomicBoolean getUsed() {
+	public AtomicBoolean getInUse() {
 		return inUse;
+	}
+
+	public BufferedReader getIn() {
+		return in;
+	}
+
+	public OutputStreamWriter getOut() {
+		return out;
+	}
+
+	public Queue<Message> getOutputMessages() {
+		return outputMessages;
+	}
+	
+	public Lobby getParent() {
+		return this.parent;
 	}
 }
