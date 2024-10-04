@@ -20,7 +20,7 @@ public class ClientRoom implements Runnable {
 	private BufferedReader in;
 	private OutputStreamWriter out;
 	private Queue<Message> outputMessages = new ConcurrentLinkedQueue<>();
-	private AtomicBoolean inUse = new AtomicBoolean(true);
+	private AtomicBoolean running = new AtomicBoolean(true);
 	private Executor executor;
 	
 	public ClientRoom(Lobby parent, Executor executor, Socket socket) throws IOException {
@@ -39,8 +39,8 @@ public class ClientRoom implements Runnable {
 		executor.execute(new Speaker(this));
 	}
 	
-	public AtomicBoolean getInUse() {
-		return inUse;
+	public AtomicBoolean getRunning() {
+		return running;
 	}
 
 	public BufferedReader getIn() {

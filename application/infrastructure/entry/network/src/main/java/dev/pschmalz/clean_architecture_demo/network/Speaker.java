@@ -15,7 +15,7 @@ public class Speaker implements Runnable {
 	public void run() {
 		var jsonb = JsonbBuilder.create();
 		
-		while(parent.getInUse().get()) {
+		while(parent.getRunning().get()) {
 					
 			if(!parent.getOutputMessages().isEmpty())
 				while(!parent.getOutputMessages().isEmpty())
