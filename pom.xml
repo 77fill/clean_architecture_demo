@@ -15,6 +15,8 @@
   <url>http://www.example.com</url>
 
   <modules>
+  	<module>application/core/domain</module>
+  	<module>application/core/usecase</module>
     <module>application/configuration/simple</module>
     <module>application/infrastructure/entry/network</module>
   </modules>
@@ -56,6 +58,18 @@
                         <artifactItem>
                           <groupId>${project.groupId}</groupId>
                           <artifactId>clean_architecture_demo.configuration.simple</artifactId>
+                          <version>${project.version}</version>
+                          <type>jar</type>
+                        </artifactItem>
+                        <artifactItem>
+                          <groupId>${project.groupId}</groupId>
+                          <artifactId>clean_architecture_demo.domain</artifactId>
+                          <version>${project.version}</version>
+                          <type>jar</type>
+                        </artifactItem>
+                        <artifactItem>
+                          <groupId>${project.groupId}</groupId>
+                          <artifactId>clean_architecture_demo.usecase</artifactId>
                           <version>${project.version}</version>
                           <type>jar</type>
                         </artifactItem>
