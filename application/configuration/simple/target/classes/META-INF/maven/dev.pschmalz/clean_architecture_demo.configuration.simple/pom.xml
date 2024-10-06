@@ -4,9 +4,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>dev.pschmalz</groupId>
+	<parent>
+	  	<groupId>dev.pschmalz</groupId>
+	  	<artifactId>clean_architecture_demo_parent</artifactId>
+	  	<version>1.0-SNAPSHOT</version>
+	  	<relativePath>../../../parent_pom.xml</relativePath>
+  	</parent>
+
   <artifactId>clean_architecture_demo.configuration.simple</artifactId>
-  <version>1.0-SNAPSHOT</version>
 
   <name>clean_architecture_demo_configuration_simple</name>
   <description>A simple clean_architecture_demo.</description>
