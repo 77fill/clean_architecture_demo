@@ -8,7 +8,7 @@ Build all subprojects by using maven in the top-level project
 
 	mvn package
 	
-This creates .jar files in all subprojects and copies them to target/all_artifacts/
+This creates fat .jar files in all subprojects and copies them to target/all_artifacts/
 
 Then run:
 
