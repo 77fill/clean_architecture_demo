@@ -20,7 +20,11 @@
   </properties>
 
   <dependencies>
-    
+    <dependency>
+    	<groupId>dev.pschmalz</groupId>
+    	<artifactId>clean_architecture_demo.domain</artifactId>
+    	<version>1.0-SNAPSHOT</version>
+    </dependency>
 
   </dependencies>
 
